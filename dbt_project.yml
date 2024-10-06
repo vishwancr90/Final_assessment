@@ -36,7 +36,15 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  my_new_project:
+  My_Final_assessment:
     # Applies to all files under models/example/
-    example:
+    staging:
+      +database: PC_DBT_DB
+      +schema: PC_DBT_STG_SCHEMA
+      +materialized: view
+      +transient: false
+
+    mart:
+      +database: PC_DBT_DB
+      +schema: PC_DBT_SCHEMA
       +materialized: table
