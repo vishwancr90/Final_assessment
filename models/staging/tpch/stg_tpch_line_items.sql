@@ -1,6 +1,12 @@
-{{ config(materialized="view") }}
+with source as (
 
-select
+    select * from {{ source('tpch', 'lineitem') }}
+
+),
+
+renamed as (
+
+    select
     
         {{ dbt_utils.surrogate_key(
             ['l_orderkey', 
@@ -23,4 +29,8 @@ select
         l_shipmode as ship_mode,
         l_comment as comment
 
-    from snowflake_sample_data.tpch_sf1.lineitem
+    from source
+
+)
+
+select * from renamed

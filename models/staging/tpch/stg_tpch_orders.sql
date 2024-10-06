@@ -1,6 +1,12 @@
-{{ config(materialized="view") }}
+with source as (
 
-select
+    select * from {{ source('tpch', 'orders') }}
+
+),
+
+renamed as (
+
+    select
 
         o_orderkey as order_key,
         o_custkey as customer_key,
@@ -12,4 +18,8 @@ select
         o_shippriority as ship_priority,
         o_comment as comment
 
-    from snowflake_sample_data.tpch_sf1.orders
+    from source
+
+)
+
+select * from renamed
